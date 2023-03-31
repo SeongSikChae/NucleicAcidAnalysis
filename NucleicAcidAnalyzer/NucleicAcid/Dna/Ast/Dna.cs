@@ -6,9 +6,7 @@
     {
         public override void Accept(INucleicAcidVisitor visitor)
         {
-            if (visitor is not IDnaVisitor)
-                throw new Exception("invalid IDnaVisitor");
-            ((IDnaVisitor)visitor).Visit(this);
+            visitor.Visit(this);
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public interface INucleicAcidVisitor
     {
+        void Visit(INucleicAcid nucleicAcid);
+
         void Visit(INucleicAcid.BaseCode code);
 
         void Visit(INucleicAcid.Adenine @base);
