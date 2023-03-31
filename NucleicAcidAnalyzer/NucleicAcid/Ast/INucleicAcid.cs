@@ -8,7 +8,7 @@
         {
             protected IEnumerable<BaseCode>? codesEnumerable;
 
-            public void SetCodesEnumerable(IEnumerable<BaseCode> codesEnumerable)
+            public void SetCodesEnumerable(IEnumerable<BaseCode>? codesEnumerable)
             {
                 this.codesEnumerable = codesEnumerable;
             }

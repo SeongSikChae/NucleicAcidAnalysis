@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
 
 namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser.Tests
 {
-    using NucleicAcid.Ast;
-    using System.Text;
+    using NucleicAcid.Ast;    
 
     [TestClass]
     public class DnaParserTests
@@ -27,6 +27,9 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser.Tests
                 }
                 return false;
             }));
+
+            dna.SetCodesEnumerable(null);
+            Assert.AreEqual(0, dna.AsEnumerable().Count());
         }
 
         [TestMethod]
@@ -59,7 +62,7 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser.Tests
             DnaParser parser = new DnaParser();
             Assert.ThrowsException<Exception>(() =>
             {
-                parser.Parse(input);
+                parser.Parse(input).AsEnumerable().ToList();
             });
         }
 
@@ -83,7 +86,7 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser.Tests
             DnaParser parser = new DnaParser();
             Assert.ThrowsException<Exception>(() =>
             {
-                parser.Parse(input);
+                parser.Parse(input).AsEnumerable().ToList();
             });
         }
 
@@ -95,7 +98,7 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser.Tests
             DnaParser parser = new DnaParser();
             Assert.ThrowsException<Exception>(() =>
             {
-                parser.Parse(input);
+                parser.Parse(input).AsEnumerable().ToList();
             });
         }
 
