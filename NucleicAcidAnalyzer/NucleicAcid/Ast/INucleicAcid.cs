@@ -6,16 +6,16 @@
 
         public abstract class AbstractNucleicAcid : INucleicAcid
         {
-            protected readonly LinkedList<BaseCode> codeList = new LinkedList<BaseCode>();
+            protected IEnumerable<BaseCode>? codesEnumerable;
 
-            public void AddCode(BaseCode code)
+            public void SetCodesEnumerable(IEnumerable<BaseCode> codesEnumerable)
             {
-                codeList.AddLast(code);
+                this.codesEnumerable = codesEnumerable;
             }
 
             public IEnumerable<BaseCode> AsEnumerable()
             {
-                return codeList.AsEnumerable();
+                return codesEnumerable is not null ? codesEnumerable : Enumerable.Empty<BaseCode>();
             }
 
             public abstract void Accept(INucleicAcidVisitor visitor);

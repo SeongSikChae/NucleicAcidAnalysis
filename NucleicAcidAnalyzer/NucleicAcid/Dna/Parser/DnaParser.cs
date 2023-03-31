@@ -41,12 +41,16 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Dna.Parser
         public override Dna VisitDna([NotNull] NucleicAcidCompilerParser.DnaContext context)
         {
             Dna dna = new Dna();
-            foreach (IParseTree tree in context.children)
-            {
-                INucleicAcid.BaseCode baseCode = (INucleicAcid.BaseCode)tree.Accept(this);
-                dna.AddCode(baseCode);
-            }
+            dna.SetCodesEnumerable(VistBaseCode(context.children));
             return dna;
+        }
+
+        private IEnumerable<INucleicAcid.BaseCode> VistBaseCode(IList<IParseTree> children)
+        {
+            foreach (IParseTree tree in children)
+            {
+                yield return (INucleicAcid.BaseCode)tree.Accept(this);
+            }
         }
 
         public override INucleicAcid VisitDnaCode([NotNull] NucleicAcidCompilerParser.DnaCodeContext context)
