@@ -29,7 +29,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Grammer Compile
-      run: java -jar /tmp/antlr-4.10.1-complate.jar -Dlanguage=CSharp -package NucleicAcidAnalyzer.NucleicAcid.Compiler -visitor "$GITHUB_WORKSPACE/NucleicAcid/Compiler/NucleicAcidCompiler.g4"
+      run: antlr4 -Dlanguage=CSharp -package NucleicAcidAnalyzer.NucleicAcid.Compiler -visitor "$GITHUB_WORKSPACE/NucleicAcid/Compiler/NucleicAcidCompiler.g4"
     - name: Build
       run: dotnet build --no-restore
     - name: Test
