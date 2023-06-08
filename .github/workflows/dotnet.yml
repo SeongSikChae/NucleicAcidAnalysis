@@ -20,8 +20,16 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Setup Java JDK
+      uses: actions/setup-java@v1.4.4
+      with:
+        java-version: 11
+    - name: Setup Antlr4
+      uses: StoneMoe/setup-antlr4@v4.10.1
     - name: Restore dependencies
       run: dotnet restore
+    - name: Grammer Compile
+      run: java -jar antlr-4.10.1-complate.jar -Dlanguage=CSharp -package NucleicAcidAnalyzer.NucleicAcid.Compiler -visitor "$GITHUB_WORKSPACE/NucleicAcid/Compiler/NucleicAcidCompiler.g4"
     - name: Build
       run: dotnet build --no-restore
     - name: Test
