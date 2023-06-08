@@ -9,7 +9,7 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Transcriptor.Tests
         [TestMethod]
         public void TranscriptionTest1()
         {
-            using FileStream fs = new FileStream("TestData\\DNASequence1.txt", FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream("TestData/DNASequence1.txt", FileMode.Open, FileAccess.Read);
 
             DnaParser parser = new DnaParser();
             Dna.Ast.Dna dna = parser.Parse(fs);
@@ -22,7 +22,7 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Transcriptor.Tests
         [TestMethod]
         public void TranscriptionTest2()
         {
-            using FileStream fs = new FileStream("TestData\\DNASequence1.txt", FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream("TestData/DNASequence1.txt", FileMode.Open, FileAccess.Read);
 
             DnaParser parser = new DnaParser();
             Dna.Ast.Dna dna = parser.Parse(fs);
