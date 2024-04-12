@@ -1,8 +1,6 @@
 ﻿namespace NucleicAcidAnalyzer.NucleicAcid.Transcriptor
 {
-    using NucleicAcid.Ast;
-    using NucleicAcid.Dna.Ast;
-    using NucleicAcid.Rna.Ast;
+    using Ast;
 
     public interface ITranscriptor<TInput, TOutput> : INucleicAcidVisitor where TInput : INucleicAcid where TOutput : INucleicAcid
     {
@@ -21,27 +19,36 @@
             return (TOutput)instance;
         }
 
-        public abstract void Visit(INucleicAcid nucleicAcid);
-
-        protected IEnumerable<INucleicAcid.BaseCode> VisitBaseCodeEnumerable(IEnumerable<INucleicAcid.BaseCode> enumerable)
+        public virtual void Visit(INucleicAcid.Dna dna)
         {
-            foreach (INucleicAcid.BaseCode code in enumerable)
-            {
-                code.Accept(this);
-                yield return (INucleicAcid.BaseCode) stack.Pop();                
-            }
+            throw new NotImplementedException();
         }
 
-        public void Visit(INucleicAcid.BaseCode code)
+        public void Visit(INucleicAcid.DnaTripletCode dnaTripletCode)
         {
-            INucleicAcid.BaseCode baseCode = new INucleicAcid.BaseCode();
-            for (int i = 0; i < 3; i++)
+            INucleicAcid.RnaTripletCode rnaTripletCode = new INucleicAcid.RnaTripletCode();
+            for (int index = 0; index < 3; index++)
             {
-                code.GetBase(i).Accept(this);
-                INucleicAcid.IBase @base = (INucleicAcid.IBase)stack.Pop();
-                baseCode.AddBase(i, @base);
+                dnaTripletCode.GetBase(index).Accept(this);
+                rnaTripletCode.AddBase(index, (INucleicAcid.IBase)stack.Pop());
             }
-            stack.Push(baseCode);
+            stack.Push(rnaTripletCode);
+        }
+
+        public virtual void Visit(INucleicAcid.Rna rna)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(INucleicAcid.RnaTripletCode rnaTripletCode)
+        {
+            INucleicAcid.DnaTripletCode dnaTripletCode = new INucleicAcid.DnaTripletCode();
+            for (int index = 0; index < 3; index++)
+            {
+                rnaTripletCode.GetBase(index).Accept(this);
+                dnaTripletCode.AddBase(index, (INucleicAcid.IBase)stack.Pop());
+            }
+            stack.Push(dnaTripletCode);
         }
 
         public void Visit(INucleicAcid.Adenine @base)
@@ -75,14 +82,17 @@
         }
     }
 
-    public sealed class RnaTranscriptor : AbstractTranscriptor<Dna, Rna>
+    public sealed class RnaTranscriptor : AbstractTranscriptor<INucleicAcid.Dna, INucleicAcid.Rna>
     {
-        public override void Visit(INucleicAcid nucleicAcid)
+        public override void Visit(INucleicAcid.Dna dna)
         {
-            Rna rna = new Rna();
-            IEnumerable<INucleicAcid.BaseCode> enumerable = ((Dna) nucleicAcid).AsEnumerable();
-            rna.SetCodesEnumerable(VisitBaseCodeEnumerable(enumerable));
-            stack.Push(rna);
+            List<INucleicAcid.TripletCode> tripletCodes = new List<INucleicAcid.TripletCode>();
+            foreach(INucleicAcid.TripletCode tripletCode in dna.TripletCodes)
+            {
+                tripletCode.Accept(this);
+                tripletCodes.Add((INucleicAcid.TripletCode) stack.Pop());
+            }
+            stack.Push(new INucleicAcid.Rna(tripletCodes));
         }
     }
 }

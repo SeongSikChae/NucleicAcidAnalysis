@@ -1,13 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<!--<JAVA_HOME>C:\Program Files\Java\OpenJdk\JDK11.0.15.9-1</JAVA_HOME>-->
+		<JavaExec>"$(JAVA_HOME)\bin\java.exe"</JavaExec>
+		<AntlrJarPath>"$(JAVA_HOME)\lib\antlr-4.13.1-complete.jar"</AntlrJarPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.12.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+	</ItemGroup>
 
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="$(JavaExec) -jar $(AntlrJarPath) -Dlanguage=CSharp -package NucleicAcidAnalyzer.NucleicAcid.Parser.Compiler -visitor $(ProjectDir)NucleicAcid\Parser\Compiler\NucleicAcid.g4" ConsoleToMSBuild="true" />
+	</Target>
 </Project>

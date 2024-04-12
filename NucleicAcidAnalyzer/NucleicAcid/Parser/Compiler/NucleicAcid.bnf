@@ -1,0 +1,14 @@
+<NucleciAcid> ::= <Dna> | <Rna>;
+<Dna> ::= { <DnaTripletCode> };
+<DnaTripletCode> ::= <DnaBase> <DnaBase> <DnaBase>;
+<DnaBase> ::= <Adenine> | <Cytosine> | <Guanine> | <Thymine> | <Delete>;
+<Adenine> ::= 'A';
+<Cytosine> ::= 'C';
+<Guanine> ::= 'G';
+<Thymine> ::= 'T';
+<Delete> ::= '-';
+
+<Rna> ::= { <RnaTripletCode> };
+<RnaTripletCode> ::= <RnaBase> <RnaBase> <RnaBase>;
+<RnaBase> ::= <Adenine> | <Cytosine> | <Guanine> | <Uracil> | <Delete>;
+<Uracil> ::= 'U';

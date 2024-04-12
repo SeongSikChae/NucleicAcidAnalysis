@@ -1,16 +1,16 @@
-grammar NucleicAcidCompiler;
+grammar NucleicAcid;
 
 nucleicAcid : dna | rna ;
 
-dna : dnaCode+ ;
+dna : dnaTripletCode+ ;
 
-rna : rnaCode+ ;
-
-dnaCode : dnaBase dnaBase dnaBase ;
+dnaTripletCode : dnaBase dnaBase dnaBase ;
 
 dnaBase : ADENINE | CYTOSINE | GUANINE | THYMINE | DELETE ;
 
-rnaCode : rnaBase rnaBase rnaBase ;
+rna : rnaTripletCode+ ;
+
+rnaTripletCode : rnaBase rnaBase rnaBase ;
 
 rnaBase : ADENINE | CYTOSINE | GUANINE | URACIL | DELETE ;
 
@@ -20,3 +20,5 @@ GUANINE : 'G' ;
 THYMINE : 'T' ;
 URACIL : 'U' ;
 DELETE : '-' ;
+
+WS : [\t\r\n]+ -> skip ;

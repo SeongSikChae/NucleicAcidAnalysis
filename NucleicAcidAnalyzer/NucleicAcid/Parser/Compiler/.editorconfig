@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS3021: 어셈블리에 CLSCompliant 특성이 없으므로 형식 또는 멤버에 CLSCompliant 특성이 필요하지 않습니다.
+dotnet_diagnostic.CS3021.severity = silent

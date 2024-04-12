@@ -1,8 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NucleicAcidAnalyzer.NucleicAcid.Dna.Parser;
 
 namespace NucleicAcidAnalyzer.NucleicAcid.Transcriptor.Tests
 {
+    using Ast;
+    using NucleicAcidAnalyzer.NucleicAcid.Parser.Tests;
+    using Parser;
+    using System.Diagnostics;
+
     [TestClass]
     public class RnaTranscriptorTests
     {
@@ -12,25 +16,16 @@ namespace NucleicAcidAnalyzer.NucleicAcid.Transcriptor.Tests
             using FileStream fs = new FileStream("TestData/DNASequence1.txt", FileMode.Open, FileAccess.Read);
 
             DnaParser parser = new DnaParser();
-            Dna.Ast.Dna dna = parser.Parse(fs);
+            INucleicAcid.Dna dna = (INucleicAcid.Dna) parser.Parse(fs);
 
             RnaTranscriptor transcriptor = new RnaTranscriptor();
-            Rna.Ast.Rna rna = transcriptor.Transcription(dna);
-            rna.AsEnumerable().ToList();
-        }
+            INucleicAcid.Rna rna = transcriptor.Transcription(dna);
 
-        [TestMethod]
-        public void TranscriptionTest2()
-        {
-            using FileStream fs = new FileStream("TestData/DNASequence1.txt", FileMode.Open, FileAccess.Read);
-
-            DnaParser parser = new DnaParser();
-            Dna.Ast.Dna dna = parser.Parse(fs);
-            dna.SetCodesEnumerable(null);
-
-            RnaTranscriptor transcriptor = new RnaTranscriptor();
-            Rna.Ast.Rna rna = transcriptor.Transcription(dna);
-            rna.AsEnumerable().ToList();
+            using (StringWriter writer = new StringWriter())
+            {
+                rna.Accept(new NucleicAcidWriter(writer));
+                Trace.WriteLine(writer);
+            }
         }
     }
 }
